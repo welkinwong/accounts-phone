@@ -1,10 +1,10 @@
 Package.describe({
-    name         : 'okland:accounts-phone',
+    name         : 'welkinwong:accounts-phone',
     version      : '0.0.21',
     // Brief, one-line summary of the package.
     summary      : 'A login service based on mobile phone number, For Meteor.',
     // URL to the Git repository containing the source code for this package.
-    git          : 'https://github.com/okland/accounts-phone',
+    git          : 'https://github.com/welkinwong/accounts-phone',
     // By default, Meteor will default to using README.md for documentation.
     // To avoid submitting documentation, set this field to null.
     documentation: 'README.md'
@@ -17,14 +17,14 @@ Npm.depends({
 });
 
 Package.onUse(function (api) {
-    api.use('npm-bcrypt@=0.7.8_2', 'server');
+    api.use('npm-bcrypt@=0.9.3', 'server');
 
-    api.use('accounts-base@1.0.2', ['client', 'server']);
+    api.use('accounts-base@1.4.2', ['client', 'server']);
     // Export Accounts (etc) to packages using this one.
-    api.imply('accounts-base@1.0.2', ['client', 'server']);
-    api.use('srp@1.0.2', ['client', 'server']);
-    api.use('sha@1.0.2', ['client', 'server']);
-    api.use('email@1.0.5', ['server']);
+    api.imply('accounts-base@1.4.2', ['client', 'server']);
+    api.use('srp@1.0.10', ['client', 'server']);
+    api.use('sha@1.0.9', ['client', 'server']);
+    api.use('email@1.2.3', ['server']);
     api.use('random@1.0.2', ['server']);
     api.use('ejson@1.0.5', 'server');
     api.use('callback-hook@1.0.2', 'server');
@@ -40,7 +40,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
-    api.use(['okland:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
+    api.use(['welkinwong:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
         'accounts-base', 'random', 'underscore', 'check',
         'ddp']);
     api.addFiles('phone_tests_setup.js', 'server');

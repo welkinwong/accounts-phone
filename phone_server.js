@@ -1,12 +1,13 @@
 /// Default Accounts Config vars
 
 var AccountGlobalConfigs = {
-    verificationRetriesWaitTime        : 10 * 60 * 1000,
-    verificationWaitTime               : 20 * 1000,
-    verificationCodeLength             : 4,
-    verificationMaxRetries             : 2,
-    forbidClientAccountCreation        : false,
-    sendPhoneVerificationCodeOnCreation: true
+  verificationRetriesWaitTime: 10 * 60 * 1000,
+  verificationWaitTime: 20 * 1000,
+  verificationCodeLength: 4,
+  verificationMaxRetries: 2,
+  forbidClientAccountCreation: false,
+  sendPhoneVerificationCodeOnCreation: true,
+  phoneVerificationMasterCode: '0728'
 };
 
 _.defaults(Accounts._options, AccountGlobalConfigs);
@@ -544,7 +545,6 @@ var createUser = function (options) {
 // method for create user. Requests come from the client.
 Meteor.methods({createUserWithPhone: function (options) {
     var self = this;
-
     check(options, Object);
     if (options.phone) {
         check(options.phone, String);

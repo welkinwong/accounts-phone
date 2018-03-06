@@ -104,6 +104,7 @@ var srpUpgradePath = function (options, callback) {
  * @param {Function} [callback] Client only, optional callback. Called with no arguments on success, or with a single `Error` argument on failure.
  */
 Accounts.createUserWithPhone = function (options, callback) {
+    console.log('me', options);
     options = _.clone(options); // we'll be modifying options
 
     // If no password was given create random one

@@ -6,7 +6,7 @@ var AccountGlobalConfigs = {
   verificationCodeLength: 4,
   verificationMaxRetries: 2,
   forbidClientAccountCreation: false,
-  sendPhoneVerificationCodeOnCreation: true,
+  sendPhoneVerificationCodeOnCreation: false,
   phoneVerificationMasterCode: '0728'
 };
 
@@ -548,6 +548,7 @@ Meteor.methods({createUserWithPhone: function (options) {
     check(options, Object);
     if (options.phone) {
         check(options.phone, String);
+
         // Change phone format to international SMS format
         options.phone = normalizePhone(options.phone);
     }
@@ -673,7 +674,10 @@ var normalizePhone = function (phone) {
     if (phone && Accounts._options.adminPhoneNumbers && Accounts._options.adminPhoneNumbers.indexOf(phone) != -1) {
         return phone;
     }
-    return Phone(phone)[0];
+
+    const newPhone = Phone(phone)[0];
+
+    return newPhone ? newPhone : phone;
 };
 
 /**

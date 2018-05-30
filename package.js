@@ -11,29 +11,29 @@ Package.describe({
 });
 
 Npm.depends({
-    "phone"         : "1.0.3",
-    "twilio"        : "1.10.0",
-    "stream-buffers": "0.2.5"
+    "phone"         : "2.0.0",
+    "twilio"        : "3.17.1",
+    "stream-buffers": "3.0.2"
 });
 
 Package.onUse(function (api) {
     api.versionsFrom('1.4.1.2');
     api.use('ecmascript');
 
-    api.use('npm-bcrypt@=0.9.3', 'server');
+    api.use('npm-bcrypt', 'server');
 
-    api.use('accounts-base@1.4.2', ['client', 'server']);
+    api.use('accounts-base', ['client', 'server']);
     // Export Accounts (etc) to packages using this one.
-    api.imply('accounts-base@1.4.2', ['client', 'server']);
-    api.use('srp@1.0.10', ['client', 'server']);
-    api.use('sha@1.0.9', ['client', 'server']);
-    api.use('email@1.2.3', ['server']);
-    api.use('random@1.0.2', ['server']);
-    api.use('ejson@1.0.5', 'server');
-    api.use('callback-hook@1.0.2', 'server');
-    api.use('check@1.0.4');
-    api.use('underscore@1.0.2');
-    api.use('ddp@1.0.14', ['client', 'server']);
+    api.imply('accounts-base', ['client', 'server']);
+    api.use('srp', ['client', 'server']);
+    api.use('sha', ['client', 'server']);
+    api.use('email', ['server']);
+    api.use('random', ['server']);
+    api.use('ejson', 'server');
+    api.use('callback-hook', 'server');
+    api.use('check');
+    api.use('underscore');
+    api.use('ddp', ['client', 'server']);
     api.addFiles('sms_server.js', 'server');
 
     api.export('SMS', 'server');

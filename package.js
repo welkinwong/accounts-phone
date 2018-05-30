@@ -1,10 +1,10 @@
 Package.describe({
-    name         : 'ujwal:accounts-phone',
+    name         : 'welkinwong:accounts-phone',
     version      : '0.0.22',
     // Brief, one-line summary of the package.
     summary      : 'A login service based on mobile phone number, For Meteor.',
     // URL to the Git repository containing the source code for this package.
-    git          : 'https://github.com/ujwal-setlur/accounts-phone',
+    git          : 'https://github.com/welkinwong/accounts-phone',
     // By default, Meteor will default to using README.md for documentation.
     // To avoid submitting documentation, set this field to null.
     documentation: 'README.md'
@@ -17,6 +17,9 @@ Npm.depends({
 });
 
 Package.onUse(function (api) {
+    api.versionsFrom('1.4.1.2');
+    api.use('ecmascript');
+
     api.use('npm-bcrypt@=0.9.3', 'server');
 
     api.use('accounts-base@1.4.2', ['client', 'server']);
@@ -32,11 +35,12 @@ Package.onUse(function (api) {
     api.use('underscore@1.0.2');
     api.use('ddp@1.0.14', ['client', 'server']);
     api.addFiles('sms_server.js', 'server');
-    api.addFiles('phone_server.js', 'server');
-    api.addFiles('phone_client.js', 'client');
 
     api.export('SMS', 'server');
     api.export('SMSTest', 'server', {testOnly: true});
+
+    api.mainModule('phone_server.js', 'server');
+    api.mainModule('phone_client.js', 'client');
 });
 
 Package.onTest(function (api) {

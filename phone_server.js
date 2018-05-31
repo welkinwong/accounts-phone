@@ -483,9 +483,11 @@ Meteor.methods({verifyPhone: function (phone, code, newPassword) {
                 throw err;
             }
 
-            // Replace all valid login tokens with new ones (changing
+            // Replace all valid login tokens with new ones if password has changed (changing
             // password should invalidate existing sessions).
-            Accounts._clearAllLoginTokens(user._id);
+            if(newPassword) {
+                Accounts._clearAllLoginTokens(user._id);
+            }
 
             return {userId: user._id};
         }

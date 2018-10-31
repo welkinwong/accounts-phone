@@ -10,7 +10,7 @@ The package is based and inspired by Meteor Accounts-Password package.
 In a Meteor app directory, enter:
 
 ```
-$ meteor add okland:accounts-phone
+$ meteor add welkinwong:accounts-phone
 ```
 
 

@@ -40,7 +40,8 @@ var bcryptCompare = Meteor.wrapAsync(bcrypt.compare);
 // receives a password as an object, it asserts that the algorithm is
 // "sha-256" and then passes the digest to bcrypt.
 
-Accounts._bcryptRounds = 10;
+// use same implementation as in accounts-password so that they can coexist
+Accounts._bcryptRounds = () => Accounts._options.bcryptRounds || 10;
 
 // Given a 'password' from the client, extract the string that we should
 // bcrypt. 'password' can be one of:
@@ -67,7 +68,7 @@ var getPasswordString = function (password) {
 //
 var hashPassword = function (password) {
     password = getPasswordString(password);
-    return bcryptHash(password, Accounts._bcryptRounds);
+    return bcryptHash(password, Accounts._bcryptRounds());
 };
 
 // Check whether the provided password matches the bcrypt'ed password in
@@ -389,12 +390,12 @@ Meteor.methods({requestPhoneVerification: function (phone) {
         var existingUser = Meteor.users.findOne({'phone.number': phone}, {fields: {'_id': 1}});
         if (existingUser) {
             userId = existingUser && existingUser._id;
+            Accounts.sendPhoneVerificationCode(userId, phone);
         } else {
-            // Create new user with phone number
-            userId = createUser({phone:phone});
+            // Throw error
+            throw new Meteor.Error(403, "Not a valid user");
         }
     }
-    Accounts.sendPhoneVerificationCode(userId, phone);
 }});
 
 // Take code from sendVerificationPhone SMS, mark the phone as verified,
@@ -482,9 +483,11 @@ Meteor.methods({verifyPhone: function (phone, code, newPassword) {
                 throw err;
             }
 
-            // Replace all valid login tokens with new ones (changing
+            // Replace all valid login tokens with new ones if password has changed (changing
             // password should invalidate existing sessions).
-            Accounts._clearAllLoginTokens(user._id);
+            if(newPassword) {
+                Accounts._clearAllLoginTokens(user._id);
+            }
 
             return {userId: user._id};
         }

@@ -288,6 +288,28 @@ Accounts.setPhonePassword = function (userId, newPlaintextPassword) {
     );
 };
 
+/**
+ * @summary Change user password.
+ * @locus Server
+ * @param {String} oldPassword A old password for the user.
+ * @param {String} newPassword A new password for the user.
+ */
+Accounts.changePassword = function (oldPlaintextPassword, newPlaintextPassword) {
+    var user = Meteor.user();
+
+    if (!user) throw new Meteor.Error('USER_NOT_SIGN_IN', '当前用户尚未登陆');
+
+    var checkResult = checkPassword(user, oldPlaintextPassword);
+    if (checkResult.error) {
+        throw new Meteor.Error('USER_OLD_PASSWORD_ERROR', '旧密码不正确');
+    }
+
+    Meteor.users.update(
+        {_id: user._id},
+        {$set: {'services.phone.bcrypt': hashPassword(newPlaintextPassword)}},
+    );
+};
+
 ///
 /// Send phone VERIFICATION code
 ///
